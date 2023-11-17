@@ -14,7 +14,7 @@ function App() {
 	const addField = async (index) => {
 		await resetForm()
 		const tempFields = [...fields]
-		tempFields.splice(index + 1, 0, { normalizedTag: "Main", tags: "new tag" })
+		tempFields.splice(index + 1, 0, { normalizedTag: "Main", tags: "" })
 		setFields(tempFields)
 	}
 	const removeField = async (index) => {
