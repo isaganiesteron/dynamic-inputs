@@ -23,6 +23,12 @@ function App() {
 		tempFields.splice(index, 1)
 		setFields(tempFields)
 	}
+	const updateTag = (index, newValue) => {
+		console.log("Update index:" + index + " with tag:" + newValue)
+		const tempFields = [...fields]
+		tempFields.splice(index, 1, { normalizedTag: "Main", tags: newValue })
+		setFields(tempFields)
+	}
 
 	useEffect(() => {
 		console.log("fields updated")
@@ -54,7 +60,7 @@ function App() {
 							<Stack spacing={4}>
 								<TextField label="Normalized" defaultValue={""} size="small" />
 								{fields.map((x, index) => {
-									return <FieldItem index={index} tagsList={tagsList} prop4={x.tags} addField={addField} removeField={removeField} />
+									return <FieldItem index={index} tagsList={tagsList} prop4={x.tags} addField={addField} removeField={removeField} updateTag={updateTag} />
 								})}
 								<Button type="submit">Submit</Button>
 							</Stack>

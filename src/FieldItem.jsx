@@ -2,15 +2,16 @@ import React from "react"
 
 import { Stack, TextField, Grid, Button, Select, MenuItem } from "@mui/material"
 
-const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField }) => {
+const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField, updateTag }) => {
 	const [tag, setTag] = React.useState(prop4)
 	const handleChange = (event) => {
 		setTag(event.target.value)
+		updateTag(index, event.target.value)
 	}
 	return (
 		<Grid container justifyContent={"space-around"}>
 			<Grid item>
-				<TextField disabled label="Input 1" defaultValue={""} size="small" fullWidth />
+				<TextField disabled label="Input 1" defaultValue="" size="small" fullWidth />
 			</Grid>
 			<Grid item>
 				<TextField disabled label="Input 2" defaultValue="" size="small" fullWidth />
@@ -23,14 +24,11 @@ const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField
 					<MenuItem value="none">
 						<em>None</em>
 					</MenuItem>
-					{tagsList.map((x, index) => {
-						console.log(x)
-						return (
-							<MenuItem key={index} value={x}>
-								{x}
-							</MenuItem>
-						)
-					})}
+					{tagsList.map((x, index) => (
+						<MenuItem key={index} value={x}>
+							{x}
+						</MenuItem>
+					))}
 				</Select>
 			</Grid>
 			<Grid item>
