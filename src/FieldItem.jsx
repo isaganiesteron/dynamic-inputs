@@ -20,7 +20,7 @@ const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField
 				<TextField disabled label="Input 3" defaultValue="" size="small" fullWidth />
 			</Grid>
 			<Grid item>
-				<Select labelId="demo-select-small-label" id="demo-select-small" value={tag} label="Age" onChange={handleChange}>
+				<Select labelId="demo-select-small-label" id="demo-select-small" value={tag} label="Age" onChange={handleChange} size="small">
 					<MenuItem value="none">
 						<em>None</em>
 					</MenuItem>
