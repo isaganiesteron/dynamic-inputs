@@ -2,7 +2,11 @@ import React from "react"
 
 import { Stack, TextField, Grid, Button, Select, MenuItem } from "@mui/material"
 
-const FieldItem = ({ index, prop2, prop3, prop4, addField, removeField }) => {
+const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField }) => {
+	const [tag, setTag] = React.useState(prop4)
+	const handleChange = (event) => {
+		setTag(event.target.value)
+	}
 	return (
 		<Grid container justifyContent={"space-around"}>
 			<Grid item>
@@ -15,26 +19,26 @@ const FieldItem = ({ index, prop2, prop3, prop4, addField, removeField }) => {
 				<TextField disabled label="Input 3" defaultValue="" size="small" fullWidth />
 			</Grid>
 			<Grid item>
-				<TextField label="Input 4" defaultValue={prop4} size="small" fullWidth />
+				<Select labelId="demo-select-small-label" id="demo-select-small" value={tag} label="Age" onChange={handleChange}>
+					<MenuItem value="none">
+						<em>None</em>
+					</MenuItem>
+					{tagsList.map((x, index) => {
+						console.log(x)
+						return (
+							<MenuItem key={index} value={x}>
+								{x}
+							</MenuItem>
+						)
+					})}
+				</Select>
 			</Grid>
 			<Grid item>
 				<Stack direction="row">
-					<Button
-						size="small"
-						onClick={() => {
-							console.log("remove " + index)
-							removeField(index)
-						}}
-					>
+					<Button size="small" onClick={() => removeField(index)}>
 						remove
 					</Button>
-					<Button
-						size="small"
-						onClick={() => {
-							console.log("add " + index)
-							addField(index)
-						}}
-					>
+					<Button size="small" onClick={() => addField(index)}>
 						add
 					</Button>
 				</Stack>

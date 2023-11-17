@@ -4,6 +4,7 @@ import { CssBaseline, Container, Card, CardContent, Typography, Stack, TextField
 import FieldItem from "./FieldItem"
 
 function App() {
+	const tagsList = ["tag1", "tag2", "tag3", "tag4", "tag5"]
 	const [fields, setFields] = useState([
 		{ normalizedTag: "Main", tags: "tag1" },
 		{ normalizedTag: "Main", tags: "tag2" },
@@ -53,7 +54,7 @@ function App() {
 							<Stack spacing={4}>
 								<TextField label="Normalized" defaultValue={""} size="small" />
 								{fields.map((x, index) => {
-									return <FieldItem index={index} prop4={x.tags} addField={addField} removeField={removeField} />
+									return <FieldItem index={index} tagsList={tagsList} prop4={x.tags} addField={addField} removeField={removeField} />
 								})}
 								<Button type="submit">Submit</Button>
 							</Stack>
