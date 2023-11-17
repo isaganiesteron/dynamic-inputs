@@ -1,34 +1,7 @@
 import { useState, useEffect } from "react"
 import { CssBaseline, Container, Card, CardContent, Typography, Stack, TextField, Grid, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material"
 
-const Item = ({ index, prop2, prop3, prop4 }) => {
-	return (
-		<Grid container justifyContent={"space-around"}>
-			<Grid item>
-				<TextField disabled label="Input 1" defaultValue={""} size="small" fullWidth />
-			</Grid>
-			<Grid item>
-				<TextField disabled label="Input 2" defaultValue="" size="small" fullWidth />
-			</Grid>
-			<Grid item>
-				<TextField disabled label="Input 3" defaultValue="" size="small" fullWidth />
-			</Grid>
-			<Grid item>
-				<TextField disabled label="Input 4" defaultValue={prop4} size="small" fullWidth />
-			</Grid>
-			<Grid item>
-				<Stack direction="row">
-					<Button size="small" onClick={() => console.log("remove " + index)}>
-						remove
-					</Button>
-					<Button size="small" onClick={() => console.log("add " + index)}>
-						add
-					</Button>
-				</Stack>
-			</Grid>
-		</Grid>
-	)
-}
+import FieldItem from "./FieldItem"
 
 function App() {
 	const [fields, setFields] = useState([
@@ -37,19 +10,54 @@ function App() {
 		{ normalizedTag: "Main", tags: "tag3" },
 	])
 
-	console.log(fields)
+	const addField = async (index) => {
+		await resetForm()
+		const tempFields = [...fields]
+		tempFields.splice(index + 1, 0, { normalizedTag: "Main", tags: "new tag" })
+		setFields(tempFields)
+	}
+	const removeField = async (index) => {
+		await resetForm()
+		const tempFields = [...fields]
+		tempFields.splice(index, 1)
+		setFields(tempFields)
+	}
+
+	useEffect(() => {
+		console.log("fields updated")
+		console.log(fields.map((x) => x.tags))
+	}, [fields])
+
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		console.log("submit form")
+		console.log(fields.map((x) => x.tags))
+	}
+
+	const resetForm = () => {
+		return new Promise((resolve) => {
+			// this is required to clear the form so it can be properly reloaded
+			setFields([])
+			document.getElementById("tagForm").reset()
+			resolve()
+		})
+	}
+
 	return (
 		<>
 			<CssBaseline />
 			<Container maxWidth={true}>
 				<Card variant="outlined">
 					<CardContent>
-						<Stack spacing={4}>
-							<TextField label="Normalized" defaultValue={""} size="small" />
-							{fields.map((x, index) => {
-								return <Item index={index} prop4={x.tags} />
-							})}
-						</Stack>
+						<form id="tagForm" onSubmit={handleSubmit}>
+							<Stack spacing={4}>
+								<TextField label="Normalized" defaultValue={""} size="small" />
+								{fields.map((x, index) => {
+									return <FieldItem index={index} prop4={x.tags} addField={addField} removeField={removeField} />
+								})}
+								<Button type="submit">Submit</Button>
+							</Stack>
+						</form>
 					</CardContent>
 				</Card>
 			</Container>
