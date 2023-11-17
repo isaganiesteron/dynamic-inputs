@@ -2,17 +2,9 @@ import React from "react"
 
 import { Stack, TextField, Grid, Button, Select, MenuItem, Autocomplete } from "@mui/material"
 
-const initialOptions = ["", "tag1", "tag2", "tag3", "tag4", "tag5"]
-
 const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField, updateTag }) => {
-	// const [tag, setTag] = React.useState(prop4)
-	// const handleChange = (event) => {
-	// 	setTag(event.target.value)
-	// 	updateTag(index, event.target.value)
-	// }
-
 	const [inputValue, setInputValue] = React.useState(prop4)
-	const [options, setOptions] = React.useState(initialOptions)
+	const [options, setOptions] = React.useState(["", "tag1", "tag2", "tag3", "tag4", "tag5"])
 
 	const handleInputChange = (newValue) => {
 		setInputValue(newValue)
@@ -32,15 +24,15 @@ const FieldItem = ({ index, tagsList, prop2, prop3, prop4, addField, removeField
 			<Grid item>
 				<Autocomplete
 					sx={{ minWidth: "200px" }}
+					isOptionEqualToValue={() => true} //since we have a custom automcomplete that accepts custom text you have to set this to true
 					options={options}
-					noOptionsText="Enter to create a new option"
+					noOptionsText="Enter to create a new tag"
 					getOptionLabel={(option) => option}
 					onInputChange={(e, newValue) => handleInputChange(newValue)}
 					value={inputValue}
 					renderInput={(params) => (
 						<TextField
 							{...params}
-							// label="Tag"
 							variant="outlined"
 							onKeyDown={(e) => {
 								if (e.key === "Enter" && options.findIndex((o) => o === inputValue) === -1) {
