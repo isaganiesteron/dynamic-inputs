@@ -1,54 +1,54 @@
 import { useState, useEffect } from "react"
 import { CssBaseline, Container, Card, CardContent, Typography, Stack, TextField, Grid, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material"
 
-import FieldItem from "./FieldItem"
+import NormalizedTagRule from "./NormalizedTagRule"
 
 function App() {
 	const tagsList = ["tag1", "tag2", "tag3", "tag4", "tag5"]
-	const [fields, setFields] = useState([
+	const [formFieldValues, setFormFieldValues] = useState([
 		{ normalizedTag: "Main", tags: "tag1" },
 		{ normalizedTag: "Main", tags: "tag2" },
 		{ normalizedTag: "Main", tags: "tag3" },
 	])
 
-	const addField = async (index) => {
+	const removeRule = async (index) => {
 		await resetForm()
-		const tempFields = [...fields]
-		tempFields.splice(index + 1, 0, { normalizedTag: "Main", tags: "" })
-		setFields(tempFields)
-	}
-	const removeField = async (index) => {
-		await resetForm()
-		const tempFields = [...fields]
+		const tempFields = [...formFieldValues]
 		tempFields.splice(index, 1)
-		setFields(tempFields)
+		setFormFieldValues(tempFields)
 	}
-	const updateTag = (index, newValue) => {
+	const addRule = async (index) => {
+		await resetForm()
+		const tempFields = [...formFieldValues]
+		tempFields.splice(index + 1, 0, { normalizedTag: "Main", tags: "" })
+		setFormFieldValues(tempFields)
+	}
+	const updateValues = (index, newValue) => {
 		console.log("Update index:" + index + " with tag:" + newValue)
-		const tempFields = [...fields]
+		const tempFields = [...formFieldValues]
 		tempFields.splice(index, 1, { normalizedTag: "Main", tags: newValue })
-		setFields(tempFields)
+		setFormFieldValues(tempFields)
 	}
-
-	useEffect(() => {
-		console.log("fields updated")
-		console.log(fields.map((x) => x.tags))
-	}, [fields])
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		console.log("submit form")
-		console.log(fields.map((x) => x.tags))
+		console.log(formFieldValues.map((x) => x.tags))
 	}
 
 	const resetForm = () => {
 		return new Promise((resolve) => {
 			// this is required to clear the form so it can be properly reloaded
-			setFields([])
+			setFormFieldValues([])
 			document.getElementById("tagForm").reset()
 			resolve()
 		})
 	}
+
+	useEffect(() => {
+		console.log("fields updated")
+		console.log(formFieldValues.map((x) => x.tags))
+	}, [formFieldValues])
 
 	return (
 		<>
@@ -59,8 +59,8 @@ function App() {
 						<form id="tagForm" onSubmit={handleSubmit}>
 							<Stack spacing={4}>
 								<TextField label="Normalized" defaultValue={""} size="small" />
-								{fields.map((x, index) => {
-									return <FieldItem index={index} tagsList={tagsList} prop4={x.tags} addField={addField} removeField={removeField} updateTag={updateTag} />
+								{formFieldValues.map((x, index) => {
+									return <NormalizedTagRule index={index} tagsList={tagsList} prop4={x.tags} addRule={addRule} removeRule={removeRule} updateValues={updateValues} />
 								})}
 								<Button type="submit">Submit</Button>
 							</Stack>
